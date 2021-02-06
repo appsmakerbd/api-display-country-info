@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>Search Country Information </title>
+  </head>
+  <body>
+    <h1>Search Country</h1>
+    <div class="input-group mb-3">
+        <input id="sCountry" type="text" class="form-control" placeholder="Search By Country Name" aria-label="Country Name" aria-describedby="sBtn">
+        <button onclick="countrySearch()"  class="btn btn-outline-secondary" type="button" id="sBtn">Search</button>
+    </div>
+
+    <h3>Show All Country Name</h3>
+    <ul id="country-ul">
+
+    </ul>
+    <div class="row" id="country-block">
+        
+    </div>
+
+    <div id="search-result">
+
+    </div>
+
+
+    <script>
+        
+        function countryList(){
+            const ul=document.getElementById('country-ul');
+            fetch('https://restcountries.eu/rest/v2/all')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data[0].name);
+                for (let i = 0; i < data.length; i++) {
+                    const countryName = data[i].name;
+                    const li=document.createElement('li');
+                    li.innerText=`${i+1} ) ${countryName}`;
+                    ul.appendChild(li);
+                }
+
+            })
+        }
+        //countryList()
+
+
+        function countryBlock(){
+            const theBlock=document.getElementById('country-block');
+            fetch('https://restcountries.eu/rest/v2/all')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                for (let i = 0; i < data.length; i++) {
+                    const countryName = data[i].name;
+                    const capital = data[i].capital;
+                    const flag = data[i].flag;
+
+                    //h3
+                    const h3=document.createElement('h3');
+                    h3.innerText=countryName;
+
+                    //p
+                    const p=document.createElement('p');
+                    p.innerText=countryName;
+
+
+                    //image
+                    const img=document.createElement('img');
+                    img.setAttribute('src',flag);
+                    img.style.width='200px';
+                    
+
+                    //appending
+                    theBlock.appendChild(h3);
+                    theBlock.appendChild(p);
+                    theBlock.appendChild(img);
+                    
+                    
+                }
+
+            })
+        }
+        //countryInfo();
+
+
+        function countrySearch(){
+            const sKey=document.getElementById('sCountry').value;
+            const theBlock=document.getElementById('search-result');
+
+            fetch(`https://restcountries.eu/rest/v2/name/${sKey}?fullText=true`)
+            .then(response => response.json())
+            .then(data =>{
+                console.log(data);
+                const countryName = data[0].name;
+                    const capital = data[0].capital;
+                    const flag = data[0].flag;
+                //h3
+                const h3=document.createElement('h3');
+                h3.innerText=countryName;
+
+                //p
+                const p=document.createElement('p');
+                p.innerText=countryName;
+
+
+                //image
+                const img=document.createElement('img');
+                img.setAttribute('src',flag);
+                img.style.width='200px';
+
+
+                //appending
+                theBlock.appendChild(h3);
+                theBlock.appendChild(p);
+                theBlock.appendChild(img);
+            })
+        }
+
+        //countrySearch();
+
+    </script>
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  
+  </body>
+</html>
